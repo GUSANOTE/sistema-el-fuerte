@@ -1,114 +1,70 @@
-# Sistema de Gestión - Ferretería EL FUERTE
-## Guía de Instalación y Configuración
+# Sistema de Gestión y POS — Ferretería EL FUERTE
 
-Este documento detalla los pasos necesarios para instalar, configurar y ejecutar el sistema en un entorno local o de producción.
-
----
-
-### 1. Requisitos Previos
-
-Asegúrese de tener instaladas las siguientes herramientas en su equipo:
-
-- **Python**: Versión 3.10 o superior (verificar con `python --version`).
-- **PostgreSQL**: Versión 13 o superior con servicio activo.
-- **Git** o descompresor de archivos (.zip).
+Sistema web integral para la administración comercial, control de inventario y punto de venta (POS) para ferreterías y negocios de retail. Desarrollado con **Python**, **Django**, arquitectura modular y exportaciones a PDF y Excel.
 
 ---
 
-### 2. Entorno Virtual e Instalación de Dependencias
+## 🚀 Inicio Rápido (En 1 paso)
 
-Abra una terminal en la carpeta principal del proyecto y ejecute:
+### Opción A: Con PowerShell (Descargar y ejecutar directamente)
+Si quieres probarlo en cualquier equipo con Windows y Python instalado:
 
-#### En Windows:
-```bash
-python -m venv venv
-.\venv\Scripts\activate
-pip install -r requirements.txt
+```powershell
+irm https://github.com/GUSANOTE/sistema-el-fuerte/archive/refs/heads/main.zip -OutFile repo.zip; Expand-Archive repo.zip -DestinationPath . -Force; cd sistema-el-fuerte-main; .\iniciar_sistema.bat
 ```
 
-#### En Linux / macOS:
-```bash
-python3 -m venv venv
-source venv/bin/activate
-pip install -r requirements.txt
+### Opción B: Si ya clonaste o descargaste la carpeta
+Simplemente haz doble clic sobre:
 ```
+iniciar_sistema.bat
+```
+El script creará el entorno virtual, instalará las dependencias necesarias y levantará el sistema abriendo tu navegador en `http://127.0.0.1:8000/`.
 
 ---
 
-### 3. Configuración de la Base de Datos (PostgreSQL)
+## 🔑 Credenciales de Acceso
 
-1. Ingrese a la consola de PostgreSQL (`psql`) o mediante **pgAdmin**.
-2. Cree la base de datos y el usuario correspondiente:
-
-```sql
-CREATE DATABASE bd_elfuerte;
-CREATE USER elfuerte_user WITH PASSWORD 'tu_password_aqui';
-GRANT ALL PRIVILEGES ON DATABASE bd_elfuerte TO elfuerte_user;
-```
-
-3. Revise el archivo `ferreteria_sys/settings.py` en la sección `DATABASES` para verificar que las credenciales coincidan con las de su servidor PostgreSQL:
-
-```python
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'bd_elfuerte',
-        'USER': 'elfuerte_user',
-        'PASSWORD': 'tu_password_aqui',
-        'HOST': 'localhost',
-        'PORT': '5432',
-    }
-}
-```
+* **URL:** `http://127.0.0.1:8000/`
+* **Usuario:** `admin`
+* **Contraseña:** `admin`
 
 ---
 
-### 4. Migraciones de la Base de Datos
+## 💻 Uso en Visual Studio Code
 
-Con el entorno virtual activo y la base de datos creada en PostgreSQL, ejecute:
-
-```bash
-python manage.py makemigrations
-python manage.py migrate
-```
-
-Esto generará automáticamente todas las tablas del sistema (productos, categorías, ventas, stock, clientes, usuarios, etc.).
+1. Abre Visual Studio Code.
+2. Abre la carpeta del proyecto (**Archivo > Abrir carpeta**).
+3. Presiona **F5** para iniciar en modo depuración (el archivo `.vscode/launch.json` ya viene listo), o abre una terminal con `Ctrl + Shift + \`` y corre:
+   ```powershell
+   .\iniciar_sistema.bat
+   ```
 
 ---
 
-### 5. Creación del Usuario Administrador (Superusuario)
+## 📋 Características Principales
 
-Para crear el usuario administrador inicial con acceso completo:
-
-```bash
-python manage.py createsuperuser
-```
-
-Ingrese los datos solicitados:
-- **Username**: `admin`
-- **Email**: `admin@elfuerte.com`
-- **Password**: `admin` (si solicita confirmación por longitud, presione `y`)
-
-*Alternativamente, puede ejecutar este comando directo:*
-```bash
-python manage.py shell -c "from django.contrib.auth.models import User; User.objects.create_superuser('admin', 'admin@elfuerte.com', 'admin') if not User.objects.filter(username='admin').exists() else None"
-```
-
----
-
-### 6. Ejecución del Servidor
-
-Inicie el servidor de desarrollo con el siguiente comando:
-
-```bash
-python manage.py runserver
-```
+* **Punto de Venta (POS):** Búsqueda de productos, carrito dinámico, validación de stock antes de vender, cálculo de vuelto, descuentos por fechas y emisión de recibos en formato PDF.
+* **Control de Inventario:**
+  * Registro de entradas de mercadería asociadas a proveedores.
+  * Registro de salidas por merma, rotura o ajuste interno.
+  * Alertas visuales de stock bajo y productos agotados en tiempo real.
+* **Catálogo Maestro:** CRUD de productos, categorías, marcas y proveedores, con sugerencia automática de códigos correlativos (`HER-001`, `HER-002`, etc.).
+* **Reportes y Analítica:**
+  * Ventas por rango de fechas.
+  * Inventario valorizado a precio de venta.
+  * Ranking de productos más vendidos.
+  * Rendimiento por vendedor.
+  * Arqueo de caja por método de pago (Efectivo, Transferencia QR, Tarjeta).
+  * **Exportación a Excel (.xlsx)** con formato profesional y encabezados congelados.
+* **Seguridad y Permisos:** Control de acceso por roles (Administrador, Vendedor, Almacenero) y permisos granulares por acción.
 
 ---
 
-### 7. Acceso al Sistema
+## 🛠️ Tecnologías
 
-Abra su navegador web e ingrese a:
-- **URL**: `http://127.0.0.1:8000/` o `http://localhost:8000/`
-- **Usuario**: `admin`
-- **Contraseña**: `admin`
+* **Backend:** Python 3.10+ & Django 6.0
+* **Base de datos:** SQLite (desarrollo/pruebas rápidas) y PostgreSQL (producción)
+* **Generación de Documentos:** `xhtml2pdf` / `reportlab` (PDF) y `openpyxl` (Excel)
+* **Frontend:** Plantillas HTML con diseño responsivo y componentes dinámicos
+
+Para consultar la guía detallada de configuración manual y despliegue con PostgreSQL, revisa el archivo [GUIA_INSTALACION.md](GUIA_INSTALACION.md).

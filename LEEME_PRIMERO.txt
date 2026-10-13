@@ -1,54 +1,46 @@
 ========================================================================
-   SISTEMA DE GESTION - FERRETERIA "EL FUERTE"
-   INSTRUCCIONES DE EJECUCION PARA VISUAL STUDIO CODE
+   SISTEMA DE GESTION Y POS - FERRETERIA "EL FUERTE"
+   INSTRUCCIONES DE USO RAPIDO PARA VISUAL STUDIO CODE
 ========================================================================
 
-REQUISITO PREVIO EN LA COMPUTADORA:
-- Tener instalado Python (version 3.10 o superior): https://www.python.org/
-  * IMPORTANTE: Al instalar Python, marcar la casilla "Add python.exe to PATH".
+REQUISITO:
+Tener instalado Python 3.10 o superior (https://www.python.org/)
+* Asegurate de marcar la casilla "Add python.exe to PATH" al instalarlo.
 
 ------------------------------------------------------------------------
-OPCION 1: INICIO AUTOMATICO (RECOMENDADO - 1 CLIC)
+OPCION 1: INICIO EN 1 CLIC (RECOMENDADO)
 ------------------------------------------------------------------------
-1. Haz doble clic en el archivo:
-   iniciar_sistema.bat
+Haz doble clic sobre el archivo:
+iniciar_sistema.bat
 
-2. El archivo se encargara automaticamente de:
-   - Crear el entorno virtual si no existe.
-   - Instalar las librerias necesarias (requirements.txt).
-   - Aplicar la base de datos con los datos de prueba.
-   - Iniciar el servidor y abrir el navegador web automaticamente.
+El script se encarga de:
+1. Crear el entorno virtual si no existe.
+2. Instalar los paquetes necesarios (requirements.txt).
+3. Conectar la base de datos precargada.
+4. Abrir el sistema en tu navegador.
 
 ------------------------------------------------------------------------
-OPCION 2: ABRIR Y EJECUTAR DESDE VISUAL STUDIO CODE
+OPCION 2: DESDE VISUAL STUDIO CODE
 ------------------------------------------------------------------------
-1. Abre Visual Studio Code.
-2. Ve al menu: Archivo > Abrir carpeta... (File > Open Folder...) y selecciona esta carpeta.
-3. Abre una terminal dentro de VS Code presionando:
-   Ctrl + Shift + `  (o ve al menu "Terminal" > "Nueva Terminal")
-4. En la terminal escribe:
+1. Abre VS Code.
+2. Menu: Archivo > Abrir carpeta... y selecciona esta carpeta.
+3. Presiona F5 (ya esta configurado en .vscode/launch.json).
+   O abre la terminal con Ctrl + Shift + ` y escribe:
    .\iniciar_sistema.bat
-   
-   O si prefieres los comandos manuales de Django:
-   python -m venv venv
-   .\venv\Scripts\activate
-   pip install -r requirements.txt
-   python manage.py runserver
 
 ------------------------------------------------------------------------
-DATOS DE ACCESO AL SISTEMA:
+DATOS DE ACCESO:
 ------------------------------------------------------------------------
-URL en el navegador: http://127.0.0.1:8000/
-Usuario:             admin
-Contraseña:          admin
+URL:         http://127.0.0.1:8000/
+Usuario:     admin
+Contraseña:  admin
 
 ------------------------------------------------------------------------
-CONTENIDO PRE-CARGADO PARA PRUEBAS:
+DATOS YA INCLUIDOS EN LA BASE DE DATOS:
 ------------------------------------------------------------------------
-El sistema ya incluye la base de datos local (db.sqlite3) con:
+El archivo db.sqlite3 ya viene con datos de prueba cargados:
 - Productos en catalogo (Herramientas, Pinturas, Plomeria, Electricidad).
-- Proveedores y Marcas.
-- Clientes de prueba.
+- Clientes, marcas y proveedores.
 - Formas de pago (Efectivo, QR, Tarjeta).
 - Generador de recibos en PDF y reportes en Excel.
 ========================================================================

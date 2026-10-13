@@ -1,0 +1,451 @@
+﻿{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ferretería EL FUERTE</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">`n    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --primary: #ff6a00;
+            --primary-dark: #e65c00;
+            --secondary: #1e293b;
+            --bg-color: #f4f7f6;
+            --sidebar-bg: #ffffff;
+            --card-bg: #ffffff;
+            --text-main: #334155;
+            --sidebar-width: 280px;
+        }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            margin: 0;
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* --- FIXED SIDEBAR (ALWAYS VISIBLE FOR SPEED) --- */
+        .sidebar {
+            width: var(--sidebar-width);
+            background: var(--sidebar-bg);
+            border-right: 1px solid #e2e8f0;
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100vh;
+            overflow-y: auto;
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 4px 0 20px rgba(0,0,0,0.02);
+        }
+
+        /* Scrollbar customization for sidebar */
+        .sidebar::-webkit-scrollbar { width: 6px; }
+        .sidebar::-webkit-scrollbar-track { background: transparent; }
+        .sidebar::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
+
+        .sidebar-brand {
+            display: flex;
+            align-items: center;
+            padding: 20px 24px;
+            text-decoration: none;
+            color: var(--secondary);
+            font-weight: 800;
+            font-size: 1.5rem;
+            letter-spacing: -0.5px;
+            border-bottom: 1px solid #f1f5f9;
+            position: sticky;
+            top: 0;
+            background: var(--sidebar-bg);
+            z-index: 10;
+        }
+
+        .sidebar-brand img {
+            height: 35px;
+            margin-right: 12px;
+            border-radius: 8px;
+        }
+
+        .sidebar-menu {
+            padding: 15px 20px;
+            flex-grow: 1;
+        }
+
+        .nav-category {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            font-weight: 700;
+            color: #94a3b8;
+            margin-top: 1.5rem;
+            margin-bottom: 0.5rem;
+            letter-spacing: 1px;
+            padding-left: 12px;
+        }
+        
+        .nav-category:first-child {
+            margin-top: 0.5rem;
+        }
+
+        .sidebar-link {
+            display: flex;
+            align-items: center;
+            padding: 12px 14px;
+            color: var(--text-main);
+            text-decoration: none;
+            font-weight: 600;
+            border-radius: 12px;
+            transition: all 0.2s;
+            margin-bottom: 4px;
+            font-size: 0.95rem;
+        }
+
+        .sidebar-link i {
+            width: 24px;
+            margin-right: 12px;
+            color: #94a3b8;
+            font-size: 1.1rem;
+            text-align: center;
+            transition: color 0.2s;
+        }
+
+        .sidebar-link:hover {
+            background: #f8fafc;
+            color: var(--primary);
+            transform: translateX(4px);
+        }
+
+        .sidebar-link:hover i {
+            color: var(--primary);
+        }
+
+        /* HIGHLIGHTED POS BUTTON */
+        .btn-pos-sidebar {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white !important;
+            box-shadow: 0 4px 15px rgba(255, 106, 0, 0.25);
+            margin-bottom: 1rem;
+            justify-content: center;
+            font-size: 1.05rem;
+            padding: 14px;
+        }
+        
+        .btn-pos-sidebar i {
+            color: white !important;
+            margin-right: 8px;
+            width: auto;
+        }
+
+        .btn-pos-sidebar:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 106, 0, 0.35);
+            background: linear-gradient(135deg, var(--primary-dark), #cc5200);
+        }
+
+        .user-profile {
+            padding: 20px;
+            border-top: 1px solid #f1f5f9;
+            display: flex;
+            align-items: center;
+            background: #fafafa;
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            background: var(--primary);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin-right: 12px;
+        }
+
+        .user-info {
+            flex-grow: 1;
+            overflow: hidden;
+        }
+        
+        .user-name {
+            font-weight: 700;
+            font-size: 0.9rem;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        
+        .user-role {
+            font-size: 0.75rem;
+            color: #94a3b8;
+        }
+
+        .logout-btn {
+            color: #ef4444;
+            padding: 8px;
+            border-radius: 8px;
+            transition: background 0.2s;
+        }
+        .logout-btn:hover { background: #fee2e2; color: #b91c1c; }
+
+        /* --- MAIN CONTENT AREA --- */
+        .main-content {
+            flex-grow: 1;
+            margin-left: var(--sidebar-width);
+            min-width: 0;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Top Header for Mobile (Only visible on small screens) */
+        .mobile-header {
+            display: none;
+            padding: 15px 20px;
+            background: white;
+            border-bottom: 1px solid #e2e8f0;
+            align-items: center;
+            justify-content: space-between;
+            position: sticky;
+            top: 0;
+            z-index: 999;
+        }
+
+        @media (max-width: 991.98px) {
+            .sidebar {
+                transform: translateX(-100%);
+                transition: transform 0.3s ease-in-out;
+            }
+            .sidebar.show {
+                transform: translateX(0);
+            }
+            .main-content {
+                margin-left: 0;
+            }
+            .mobile-header {
+                display: flex;
+            }
+        }
+
+        /* --- GLOBAL OVERRIDES FOR VIEWS --- */
+        .container, .container-fluid {
+            padding: 2rem;
+            max-width: 1400px;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border: none !important;
+            border-radius: 16px !important;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.03) !important;
+            margin-bottom: 2rem;
+        }
+
+        .card-header {
+            background: transparent !important;
+            border-bottom: 1px solid #f1f5f9 !important;
+            padding: 1.2rem 1.5rem !important;
+            font-weight: 700 !important;
+            color: var(--secondary) !important;
+        }
+
+        .table {
+            margin-bottom: 0;
+        }
+        
+        .table thead th {
+            border: none;
+            background: #f8fafc;
+            color: #64748b;
+            font-weight: 700;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            padding: 1rem 1.5rem;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .table tbody td {
+            border-bottom: 1px solid #f1f5f9;
+            padding: 1rem 1.5rem;
+            vertical-align: middle;
+        }
+        
+        .table tbody tr:hover { background: #f8fafc; }
+
+        .btn {
+            border-radius: 10px !important;
+            font-weight: 600 !important;
+            padding: 0.6rem 1.2rem !important;
+        }
+        
+        .btn-primary { background-color: var(--primary) !important; border-color: var(--primary) !important; }
+        .btn-primary:hover { background-color: var(--primary-dark) !important; box-shadow: 0 4px 10px rgba(255,106,0,0.2) !important; }
+
+        .form-control, .form-select {
+            border-radius: 10px !important;
+            border: 2px solid #e2e8f0 !important;
+            padding: 0.7rem 1rem !important;
+            background: #f8fafc !important;
+            color: var(--secondary) !important;
+        }
+        .form-control:focus, .form-select:focus {
+            border-color: var(--primary) !important;
+            box-shadow: 0 0 0 4px rgba(255,106,0,0.1) !important;
+            background: white !important;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Mobile Header -->
+    <div class="mobile-header">
+        <a href="{% url 'home' %}" class="text-dark text-decoration-none fw-bold fs-5 d-flex align-items-center">
+            <img src="{% static 'img/logo.png' %}" alt="Logo" style="height: 30px; margin-right: 10px; border-radius: 6px;">
+            EL FUERTE
+        </a>
+        <button class="btn btn-light" id="sidebarToggleBtn">
+            <i class="fa-solid fa-bars fs-5"></i>
+        </button>
+    </div>
+
+    <!-- Permanent Fixed Sidebar -->
+    <aside class="sidebar" id="sidebar">
+        <a href="{% url 'home' %}" class="sidebar-brand">
+            <img src="{% static 'img/logo.png' %}" alt="Logo">
+            EL FUERTE
+        </a>
+        
+        <div class="sidebar-menu">
+            <!-- 1. Alta Prioridad: Punto de Venta -->
+            {% if 'add_venta' in perms_ferreteria or request.user.is_superuser %}
+            <a href="{% url 'nueva_venta' %}" class="sidebar-link btn-pos-sidebar">
+                <i class="fa-solid fa-cash-register"></i> REALIZAR VENTA
+            </a>
+            {% endif %}
+
+            <a href="{% url 'home' %}" class="sidebar-link"><i class="fa-solid fa-chart-pie"></i> Dashboard Principal</a>
+
+            <!-- 2. Almacén y Stock (Consultas rápidas) -->
+            <div class="nav-category">Almacén y Productos</div>
+            {% if 'view_producto' in perms_ferreteria or request.user.is_superuser %}
+            <a href="{% url 'catalogo' %}" class="sidebar-link"><i class="fa-solid fa-magnifying-glass"></i> Catálogo Búsqueda</a>
+            <a href="{% url 'lista_productos' %}" class="sidebar-link"><i class="fa-solid fa-box-open"></i> Gestión Productos</a>
+            {% endif %}
+            
+            {% if 'view_entradastock' in perms_ferreteria or request.user.is_superuser %}
+            <a href="{% url 'lista_entradas' %}" class="sidebar-link"><i class="fa-solid fa-truck-ramp-box"></i> Ingresos (Compras)</a>
+            <a href="{% url 'lista_salidas' %}" class="sidebar-link"><i class="fa-solid fa-boxes-packing"></i> Mermas y Salidas</a>
+            {% endif %}
+
+            <!-- 3. Ventas y Clientes -->
+            <div class="nav-category">Ventas y Clientes</div>
+            {% if 'view_venta' in perms_ferreteria or request.user.is_superuser %}
+            <a href="{% url 'historial_ventas' %}" class="sidebar-link"><i class="fa-solid fa-receipt"></i> Historial de Ventas</a>
+            <a href="{% url 'reporte_ventas' %}" class="sidebar-link"><i class="fa-solid fa-chart-column"></i> Reporte de Ventas</a>
+            <a href="{% url 'lista_clientes' %}" class="sidebar-link"><i class="fa-solid fa-users"></i> Directorio Clientes</a>
+            {% endif %}
+
+            <!-- 4. Proveedores y Ventas -->
+            <div class="nav-category">Relaciones y Cobros</div>
+            {% if 'view_proveedor' in perms_ferreteria or request.user.is_superuser %}
+            <a href="{% url 'lista_proveedores' %}" class="sidebar-link"><i class="fa-solid fa-truck"></i> Proveedores</a>
+            {% endif %}
+            {% if 'view_tipopago' in perms_ferreteria or request.user.is_superuser %}
+            <a href="{% url 'lista_tipos_pago' %}" class="sidebar-link"><i class="fa-solid fa-wallet"></i> Métodos de Pago</a>
+            <a href="{% url 'lista_descuentos' %}" class="sidebar-link"><i class="fa-solid fa-percent"></i> Descuentos</a>
+            {% endif %}
+
+            <!-- 5. Ajustes Generales -->
+            <div class="nav-category">Configuración General</div>
+            {% if 'view_categoria' in perms_ferreteria or request.user.is_superuser %}
+            <a href="{% url 'lista_categorias' %}" class="sidebar-link"><i class="fa-solid fa-tags"></i> Categorías</a>
+            <a href="{% url 'lista_marcas' %}" class="sidebar-link"><i class="fa-solid fa-tag"></i> Marcas</a>
+            {% endif %}
+            {% if 'view_usuario' in perms_ferreteria or request.user.is_superuser %}
+            <a href="{% url 'lista_usuarios' %}" class="sidebar-link"><i class="fa-solid fa-users-gear"></i> Usuarios</a>
+            <a href="{% url 'lista_roles' %}" class="sidebar-link"><i class="fa-solid fa-user-shield"></i> Roles y Permisos</a>
+            {% endif %}
+            <a href="{% url 'configuracion_empresa' %}" class="sidebar-link"><i class="fa-solid fa-building"></i> Datos Empresa</a>
+        </div>
+            {% if 'view_categoria' in perms_ferreteria or request.user.is_superuser %}
+            <a href="{% url 'lista_categorias' %}" class="sidebar-link"><i class="fa-solid fa-tags"></i> Categorías & Marcas</a>
+            <a href="{% url 'lista_usuarios' %}" class="sidebar-link"><i class="fa-solid fa-user-shield"></i> Gestión Usuarios</a>
+            <a href="{% url 'configuracion_empresa' %}" class="sidebar-link"><i class="fa-solid fa-building"></i> Datos Empresa</a>
+            {% endif %}
+        </div>
+        
+        <div class="user-profile">
+            <div class="user-avatar">
+                <i class="fa-solid fa-user"></i>
+            </div>
+            <div class="user-info">
+                <div class="user-name">{{ request.user.get_full_name|default:request.user.username }}</div>
+                <div class="user-role">Administrador</div>
+            </div>
+            <a href="{% url 'logout' %}" class="logout-btn" title="Cerrar Sesión">
+                <i class="fa-solid fa-right-from-bracket"></i>
+            </a>
+        </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="main-content">
+        <div class="container-fluid">
+            {% if messages %}
+                <div class="mb-4">
+                    {% for message in messages %}
+                        <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert" style="border-radius: 12px; border: none; box-shadow: 0 4px 15px rgba(0,0,0,0.05);">
+                            {{ message }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+
+            {% block contenido %}
+            {% endblock %}
+        </div>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+    document.addEventListener("DOMContentLoaded", function () {
+        // Mobile Sidebar Toggle
+        const toggleBtn = document.getElementById("sidebarToggleBtn");
+        const sidebar = document.getElementById("sidebar");
+        
+        if(toggleBtn && sidebar) {
+            toggleBtn.addEventListener("click", function() {
+                sidebar.classList.toggle("show");
+            });
+        }
+
+        // Table Search functionality
+        const buscador = document.getElementById("buscadorTabla");
+        if (buscador && !buscador.dataset.searchBound) {
+            buscador.dataset.searchBound = "1";
+            buscador.addEventListener("input", function () {
+                const textoFiltro = this.value.toLowerCase().trim();
+                const tabla = this.closest(".card, .table-responsive, body, .container-fluid");
+                if (!tabla) return;
+                const filas = tabla.querySelectorAll("tbody tr");
+                filas.forEach(function (fila) {
+                    if (fila.querySelector("td[colspan]")) return;
+                    const contenidoFila = fila.textContent.toLowerCase();
+                    fila.style.display = contenidoFila.includes(textoFiltro) ? "" : "none";
+                });
+            });
+        }
+    });
+    </script>
+</body>
+</html>
+
+

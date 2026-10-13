@@ -1,0 +1,54 @@
+========================================================================
+   SISTEMA DE GESTION - FERRETERIA "EL FUERTE"
+   INSTRUCCIONES DE EJECUCION PARA VISUAL STUDIO CODE
+========================================================================
+
+REQUISITO PREVIO EN LA COMPUTADORA:
+- Tener instalado Python (version 3.10 o superior): https://www.python.org/
+  * IMPORTANTE: Al instalar Python, marcar la casilla "Add python.exe to PATH".
+
+------------------------------------------------------------------------
+OPCION 1: INICIO AUTOMATICO (RECOMENDADO - 1 CLIC)
+------------------------------------------------------------------------
+1. Haz doble clic en el archivo:
+   iniciar_sistema.bat
+
+2. El archivo se encargara automaticamente de:
+   - Crear el entorno virtual si no existe.
+   - Instalar las librerias necesarias (requirements.txt).
+   - Aplicar la base de datos con los datos de prueba.
+   - Iniciar el servidor y abrir el navegador web automaticamente.
+
+------------------------------------------------------------------------
+OPCION 2: ABRIR Y EJECUTAR DESDE VISUAL STUDIO CODE
+------------------------------------------------------------------------
+1. Abre Visual Studio Code.
+2. Ve al menu: Archivo > Abrir carpeta... (File > Open Folder...) y selecciona esta carpeta.
+3. Abre una terminal dentro de VS Code presionando:
+   Ctrl + Shift + `  (o ve al menu "Terminal" > "Nueva Terminal")
+4. En la terminal escribe:
+   .\iniciar_sistema.bat
+   
+   O si prefieres los comandos manuales de Django:
+   python -m venv venv
+   .\venv\Scripts\activate
+   pip install -r requirements.txt
+   python manage.py runserver
+
+------------------------------------------------------------------------
+DATOS DE ACCESO AL SISTEMA:
+------------------------------------------------------------------------
+URL en el navegador: http://127.0.0.1:8000/
+Usuario:             admin
+Contraseña:          admin
+
+------------------------------------------------------------------------
+CONTENIDO PRE-CARGADO PARA PRUEBAS:
+------------------------------------------------------------------------
+El sistema ya incluye la base de datos local (db.sqlite3) con:
+- Productos en catalogo (Herramientas, Pinturas, Plomeria, Electricidad).
+- Proveedores y Marcas.
+- Clientes de prueba.
+- Formas de pago (Efectivo, QR, Tarjeta).
+- Generador de recibos en PDF y reportes en Excel.
+========================================================================

@@ -1,0 +1,17 @@
+# Python bytecode
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual Environment (no incluir en zip ni git, pesa cientos de megas)
+venv/
+env/
+ENV/
+
+# Archivos de depuracion / IDE personales
+.idea/
+*.swp
+*.swo
+
+# Media subidos por usuarios (si aplica)
+media/
